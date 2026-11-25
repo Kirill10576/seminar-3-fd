@@ -31,7 +31,7 @@ class Book(
 
     fun borrow(): Boolean {
         if(!isAvailable) return false
-        isAvailable = true
+        isAvailable = false
         return true
     }
 
@@ -70,7 +70,7 @@ class CountingNotifier : Notifier{
 class Library(private val books: Array<Book>, private val notifier: Notifier) {
     fun hasBook(id: Int): Boolean {
         for(book in books){
-            if(id==book.id) return true
+            if(book.id==id) return true
         }
         return false
     }
@@ -90,7 +90,7 @@ class Library(private val books: Array<Book>, private val notifier: Notifier) {
 
     fun returnBook(id: Int): Boolean {
         for(book in books){
-            if(id==book.id){
+            if(book.id==id){
                 if(book.returnToLibrary()){
                     notifier.send("Возвращена книга: ${book.title}")
                     return true
@@ -112,9 +112,7 @@ class Library(private val books: Array<Book>, private val notifier: Notifier) {
     fun countByGenre(genre: Genre): Int {
         var count = 0
         for(book in books){
-            if(book.genre==genre){
-                count++
-            }
+            if(book.genre==genre) count++
         }
         return count
     }
@@ -124,7 +122,7 @@ class Library(private val books: Array<Book>, private val notifier: Notifier) {
         var result=""
         for (book in books){
             var b=""
-            b+="${book.id}. ${book.title} - ${book.author}: "
+            b+="${book.id}. ${book.title} — ${book.author}: "
             if(book.isAvailable) b+="доступна"
             else b+="выдана"
             result+=b+"\n"
